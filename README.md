@@ -37,17 +37,35 @@ The EC2 Remediation System integrates AWS with ServiceNow to streamline incident
 
 ---
 
-**4. Manual remediation with notifications**
-- **Manual remediation**:
-  - Performed on EC2 instance whenever it goes down
-- **Workflow automation**:
-  - Creates a new incident record
-  - Sends Slack notification to appropriate DevOps team members
-  - Includes AI-powered search for relevant Knowledge Base documentation
- 
-![](https://github.com/CodeWithLuwam/EC2-AI-Agent-Enhancement/blob/main/Images/EC2%20Remediation%20Workfloow%20Overview.png?raw=true)
-![](https://github.com/CodeWithLuwam/EC2-AI-Agent-Enhancement/blob/main/Images/Action%201%20-%20AI%20Search%20%E2%80%93%20EC2%20Knowledge%20Articles.png?raw=true)
-![](https://github.com/CodeWithLuwam/EC2-AI-Agent-Enhancement/blob/main/Images/Action%202%20-%20Incident%20Record%20Creation.png?raw=true)
+**4. Automated remediation with notifications** <br>
+
+The **Remediation Notification and Workflow** is designed to automatically respond whenever an EC2 instance goes offline. <br>
+
+**Trigger:** <br>
+The workflow watches the EC2 Instance table (`x_snc_ec2_monito_0_ec2_instance`). It fires whenever a record is **created or updated** and the **Instance status = OFF**. Because it is set to run on every update, the workflow will re-trigger each time the record changes while still offline (not just the first time it goes OFF). This ensures no offline event is missed, but can also generate repeated runs if the instance stays down and continues to update. <br>
+![](https://github.com/CodeWithLuwam/EC2-AI-Agent-Enhancement/blob/main/Images/EC2%20Remediation%20Workfloow%20Overview.png?raw=true) <br>
+
+**Actions:** <br>
+Once the trigger condition is met, the workflow runs three key steps: <br>
+
+**1. AI Search (Knowledge Lookup):** <br>
+Automatically queries the ServiceNow Knowledge Base for EC2-related troubleshooting articles. These results are attached to the incident or provided to DevOps for immediate reference. <br>
+![](https://github.com/CodeWithLuwam/EC2-AI-Agent-Enhancement/blob/main/Images/Action%201%20-%20AI%20Search%20%E2%80%93%20EC2%20Knowledge%20Articles.png?raw=true) <br>
+
+**2. Incident Creation:**
+Creates a new **Incident [incident]** record with contextual details:
+  - **Short description**: names the failing EC2 instance
+  - **Status**: captures the current state (e.g., OFF)
+  - **Instance ID**: stores the AWS identifier
+This ensures outages are logged, tracked, and visible to DevOps. <br>
+![](https://github.com/CodeWithLuwam/EC2-AI-Agent-Enhancement/blob/main/Images/Action%202%20-%20Incident%20Record%20Creation.png?raw=true) <br>
+
+**3. Slack Notification:** <br>
+Sends a message via Slack webhook to notify the team. The alert can include knowledge article links retrieved by AI Search (Action 1), and can be customized with username, channel, and icon for visibility. <br>
+![](https://github.com/CodeWithLuwam/EC2-AI-Agent-Enhancement/blob/main/Images/Action%203%20-%20Slack%20Notification.png?raw=true) 
+
+
+
 
  ---
 
