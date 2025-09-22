@@ -64,10 +64,8 @@ This ensures outages are logged, tracked, and visible to DevOps. <br>
 Sends a message via Slack webhook to notify the team. The alert can include knowledge article links retrieved by AI Search (Action 1), and can be customized with username, channel, and icon for visibility. <br>
 ![](https://github.com/CodeWithLuwam/EC2-AI-Agent-Enhancement/blob/main/Images/Action%203%20-%20Slack%20Notification.png?raw=true) 
 
-
-
-
  ---
 
-5. 
-- Slack notifications dynamically include failed instance name and ID
+**5. Issue Detected & DevOps Notified** <br> 
+Slack notifications dynamically include failed instance name and IDAfter an issue is detected, the AWS Critical Incident Helper workflow triggers. The workflow identifies a remediation action and sends a Slack notification with the relevant knowledge base article (KB0010501: Trigger EC2 Remediation). The DevOps team is then immediately alerted with the remediation instructions and can run the ‘Trigger EC2 Remediation’ UI action in ServiceNow to resolve the EC2 instance issue. <br>
+![](https://github.com/CodeWithLuwam/EC2-AI-Agent-Enhancement/blob/main/Images/Issue%20Detected%20&%20DevOps%20Notified.png?raw=true)
