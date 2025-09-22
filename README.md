@@ -69,3 +69,21 @@ Sends a message via Slack webhook to notify the team. The alert can include know
 **5. Issue Detected & DevOps Notified** <br> 
 Slack notifications dynamically include failed instance name and IDAfter an issue is detected, the AWS Critical Incident Helper workflow triggers. The workflow identifies a remediation action and sends a Slack notification with the relevant knowledge base article (KB0010501: Trigger EC2 Remediation). The DevOps team is then immediately alerted with the remediation instructions and can run the ‘Trigger EC2 Remediation’ UI action in ServiceNow to resolve the EC2 instance issue. <br>
 ![](https://github.com/CodeWithLuwam/EC2-AI-Agent-Enhancement/blob/main/Images/Issue%20Detected%20&%20DevOps%20Notified.png?raw=true)
+
+**Choosing Between Manual and Conversational Remediation:**
+- Engineers can manually trigger remediation using the **UI Action** when precise control or verification is needed.
+- Alternatively, the **AI Agent** in NOW Assist allows the engineer to provide either the **EC2 Instance ID** or **Incident number** to execute the remediation conversationally. This is useful when rapid resolution is required or when handling multiple incidents without navigating to individual records.
+![](https://github.com/CodeWithLuwam/EC2-AI-Agent-Enhancement/blob/main/Images/AI%20Agent%20Studio.png?raw=true)
+
+---
+**How manual UI Action works versus how the AI Agent works**
+**Manual UI Action (Section 3)**:
+- Client-side **UI Action button** triggers a **Script Include** (server-side).
+- Script Include handles the **API call to AWS** and logs the result in the Remediation Log table.
+- Relies on **direct server-side logic**, gives engineers full control over the flow.<br>
+
+**Conversational AI Agent (Sections 4–5)**:
+- No server-side Script Include is involved.
+- The agent must **derive the sys_id** from either the EC2 Instance ID or the Incident number via queries.
+- Once `sys_id` is obtained, it runs the same remediation logic **programmatically**.
+- Designed for **guided, automated interaction** instead of manual navigation.
